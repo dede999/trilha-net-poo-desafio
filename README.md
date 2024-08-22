@@ -24,3 +24,4 @@ O código está pela metade, e você deverá dar continuidade obedecendo as regr
 ## Minhas adições
 - Adicionei um método **Ligar** na classe **Smartphone** para imitar o comportamento de ligar um celular.
 - Adicionei um método **Desligar** na classe **Smartphone** para imitar o comportamento de desligar um celular.
+- Adicionei exceções referentes a cenários de erro em ligações.
