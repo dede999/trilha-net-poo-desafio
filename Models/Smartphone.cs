@@ -9,7 +9,7 @@ namespace DesafioPOO.Models
         protected string IMEI { get; }
         protected int Memoria { get; set; }
         protected bool Ligado { get; set; }
-        protected bool EmLigacao { get; set; }
+        private Smartphone ConenctadoCom { get; set; }
 
         protected Smartphone(string numero, string modelo, string imei, int memoria)
         {
@@ -18,7 +18,7 @@ namespace DesafioPOO.Models
             IMEI = imei;
             Memoria = memoria;
             Ligado = false;
-            EmLigacao = false;
+            ConenctadoCom = null;
         }
         
         public void LigarDispositivo()
@@ -42,7 +42,7 @@ namespace DesafioPOO.Models
             {
                 exc = Activator.CreateInstance(type!, mensagem + " está desligado") as Exception;
             }
-            if (EmLigacao)
+            if (ConenctadoCom != null)
             {
                 exc = Activator.CreateInstance(type!, mensagem + " já está em ligação") as Exception;
             }
@@ -57,15 +57,31 @@ namespace DesafioPOO.Models
         {
             GerirExcessao(true);
             Console.WriteLine("Ligando...");
-            receptor.ReceberLigacao();
-            EmLigacao = true;
+            receptor.ReceberLigacao(this);
+            ConenctadoCom = receptor;
         }
 
-        public void ReceberLigacao()
+        public void ReceberLigacao(Smartphone origem)
         {
             GerirExcessao(false);
             Console.WriteLine("Recebendo ligação...");
-            EmLigacao = true;
+            ConenctadoCom = origem;
+        }
+        
+        public void FinalizarLigacao(int level = 0)
+        {
+            if (level > 1)
+            {
+                return;
+            }
+            if (ConenctadoCom == null)
+            {
+                throw new LigacaoNaoCompleta("Não há ligação para finalizar");
+            }
+            var conectado = ConenctadoCom;
+            ConenctadoCom = null;
+            conectado.FinalizarLigacao(level + 1);
+            Console.WriteLine("Finalizando ligação...");
         }
 
         public abstract void InstalarAplicativo(string nomeApp);

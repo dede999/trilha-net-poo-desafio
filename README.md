@@ -26,3 +26,4 @@ O código está pela metade, e você deverá dar continuidade obedecendo as regr
 - Adicionei um método **Desligar** na classe **Smartphone** para imitar o comportamento de desligar um celular.
 - Adicionei exceções referentes a cenários de erro em ligações.
 - Adicionei uma lógica um pouco mais complexa para a simulacão de ligações.
+- Adicionei um método pra encerrar a ligação.
