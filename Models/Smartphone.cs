@@ -31,16 +31,31 @@ namespace DesafioPOO.Models
             Ligado = false;
         }
 
-        public void Ligar(Smartphone receptor)
+        private void GerirExcessao(bool ehOrigem)
         {
+            string mensagem = ehOrigem ? "O dispositivo de origem" : "O dispositivo chamado";
+            var typeString = ehOrigem ? "LigacaoNaoPermitida" : "LigacaoNaoCompleta";
+            var type = Type.GetType("DesafioPOO.Exceptions.Calls." + typeString);
+            Exception exc = null;
+
             if (!Ligado)
             {
-                throw new LigacaoNaoPermitida("O dispositivo de origem está desligado");
+                exc = Activator.CreateInstance(type!, mensagem + " está desligado") as Exception;
             }
             if (EmLigacao)
             {
-                throw new LigacaoNaoPermitida("O dispositivo de origem já está em ligação");
+                exc = Activator.CreateInstance(type!, mensagem + " já está em ligação") as Exception;
             }
+
+            if (exc != null)
+            {
+                throw exc;
+            }
+        }
+
+        public void Ligar(Smartphone receptor)
+        {
+            GerirExcessao(true);
             Console.WriteLine("Ligando...");
             receptor.ReceberLigacao();
             EmLigacao = true;
@@ -48,14 +63,7 @@ namespace DesafioPOO.Models
 
         public void ReceberLigacao()
         {
-            if (!Ligado)
-            {
-                throw new LigacaoNaoCompleta("O dispositivo chamado está desligado");
-            }
-            if (EmLigacao)
-            {
-                throw new LigacaoNaoCompleta("O dispositivo chamado já está em ligação");
-            }
+            GerirExcessao(false);
             Console.WriteLine("Recebendo ligação...");
             EmLigacao = true;
         }
