@@ -6,6 +6,7 @@ namespace DesafioPOO.Models
         protected string Modelo { get; }
         protected string IMEI { get; }
         protected int Memoria { get; set; }
+        protected bool Ligado { get; set; }
 
         protected Smartphone(string numero, string modelo, string imei, int memoria)
         {
@@ -13,6 +14,17 @@ namespace DesafioPOO.Models
             Modelo = modelo;
             IMEI = imei;
             Memoria = memoria;
+            Ligado = false;
+        }
+        
+        public void LigarDispositivo()
+        {
+            Ligado = true;
+        }
+        
+        public void DesligarDispositivo()
+        {
+            Ligado = false;
         }
 
         public void Ligar()
