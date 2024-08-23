@@ -86,3 +86,4 @@ RealizarLigacaoComAparelhoDeOrigemDesligado();
 RealizarLigacaoComAparelhoDeDestinoDesligado();
 AperelhoOrigemEmDuasLigacoes();
 AperelhoDestinoEmDuasLigacoes();
+DesligarEFazerOutraLigacao();
